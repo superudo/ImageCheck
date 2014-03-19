@@ -29,7 +29,10 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabImages = new System.Windows.Forms.TabPage();
             this.lbImages = new System.Windows.Forms.ListBox();
+            this.tabSettings = new System.Windows.Forms.TabPage();
             this.pbDeleteMark = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.bnErase = new System.Windows.Forms.Button();
@@ -37,10 +40,17 @@
             this.tbDirectory = new System.Windows.Forms.TextBox();
             this.bnDirectory = new System.Windows.Forms.Button();
             this.bnResume = new System.Windows.Forms.Button();
+            this.cbSaveNoQuestions = new System.Windows.Forms.CheckBox();
+            this.cbDeleteProceed = new System.Windows.Forms.CheckBox();
+            this.cbQuickResume = new System.Windows.Forms.CheckBox();
+            this.cbStartFullScreen = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.tabControl.SuspendLayout();
+            this.tabImages.SuspendLayout();
+            this.tabSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeleteMark)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -56,26 +66,62 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.lbImages);
+            this.splitContainer1.Panel1.Controls.Add(this.tabControl);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.pbDeleteMark);
             this.splitContainer1.Panel2.Controls.Add(this.pictureBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(1150, 528);
+            this.splitContainer1.Size = new System.Drawing.Size(1150, 540);
             this.splitContainer1.SplitterDistance = 135;
             this.splitContainer1.TabIndex = 0;
             // 
+            // tabControl
+            // 
+            this.tabControl.Controls.Add(this.tabImages);
+            this.tabControl.Controls.Add(this.tabSettings);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.Padding = new System.Drawing.Point(6, 2);
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(135, 540);
+            this.tabControl.TabIndex = 0;
+            // 
+            // tabImages
+            // 
+            this.tabImages.Controls.Add(this.lbImages);
+            this.tabImages.Location = new System.Drawing.Point(4, 20);
+            this.tabImages.Name = "tabImages";
+            this.tabImages.Padding = new System.Windows.Forms.Padding(3);
+            this.tabImages.Size = new System.Drawing.Size(127, 516);
+            this.tabImages.TabIndex = 0;
+            this.tabImages.Text = "Images";
+            this.tabImages.UseVisualStyleBackColor = true;
+            // 
             // lbImages
             // 
-            this.lbImages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbImages.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbImages.FormattingEnabled = true;
-            this.lbImages.Location = new System.Drawing.Point(1, 3);
+            this.lbImages.Location = new System.Drawing.Point(3, 3);
             this.lbImages.Name = "lbImages";
-            this.lbImages.Size = new System.Drawing.Size(131, 511);
+            this.lbImages.Size = new System.Drawing.Size(121, 510);
             this.lbImages.TabIndex = 0;
             this.lbImages.SelectedIndexChanged += new System.EventHandler(this.lbImages_SelectedIndexChanged);
+            // 
+            // tabSettings
+            // 
+            this.tabSettings.Controls.Add(this.cbStartFullScreen);
+            this.tabSettings.Controls.Add(this.cbSaveNoQuestions);
+            this.tabSettings.Controls.Add(this.cbDeleteProceed);
+            this.tabSettings.Controls.Add(this.cbQuickResume);
+            this.tabSettings.Location = new System.Drawing.Point(4, 20);
+            this.tabSettings.Name = "tabSettings";
+            this.tabSettings.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSettings.Size = new System.Drawing.Size(127, 516);
+            this.tabSettings.TabIndex = 1;
+            this.tabSettings.Text = "Settings";
+            this.tabSettings.UseVisualStyleBackColor = true;
             // 
             // pbDeleteMark
             // 
@@ -88,11 +134,12 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(1);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1011, 528);
+            this.pictureBox1.Size = new System.Drawing.Size(1011, 540);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -148,11 +195,60 @@
             this.bnResume.UseVisualStyleBackColor = true;
             this.bnResume.Click += new System.EventHandler(this.bnResume_Click);
             // 
+            // cbSaveNoQuestions
+            // 
+            this.cbSaveNoQuestions.AutoSize = true;
+            this.cbSaveNoQuestions.Checked = global::ImageCheck.Properties.Settings.Default.NoSaveQuestion;
+            this.cbSaveNoQuestions.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ImageCheck.Properties.Settings.Default, "NoSaveQuestion", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cbSaveNoQuestions.Location = new System.Drawing.Point(6, 52);
+            this.cbSaveNoQuestions.Name = "cbSaveNoQuestions";
+            this.cbSaveNoQuestions.Size = new System.Drawing.Size(109, 17);
+            this.cbSaveNoQuestions.TabIndex = 2;
+            this.cbSaveNoQuestions.Text = "No save question";
+            this.cbSaveNoQuestions.UseVisualStyleBackColor = true;
+            // 
+            // cbDeleteProceed
+            // 
+            this.cbDeleteProceed.AutoSize = true;
+            this.cbDeleteProceed.Checked = global::ImageCheck.Properties.Settings.Default.ProceedOnDelete;
+            this.cbDeleteProceed.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbDeleteProceed.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ImageCheck.Properties.Settings.Default, "ProceedOnDelete", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cbDeleteProceed.Location = new System.Drawing.Point(6, 29);
+            this.cbDeleteProceed.Name = "cbDeleteProceed";
+            this.cbDeleteProceed.Size = new System.Drawing.Size(107, 17);
+            this.cbDeleteProceed.TabIndex = 1;
+            this.cbDeleteProceed.Text = "Delete goto next ";
+            this.cbDeleteProceed.UseVisualStyleBackColor = true;
+            // 
+            // cbQuickResume
+            // 
+            this.cbQuickResume.AutoSize = true;
+            this.cbQuickResume.Checked = global::ImageCheck.Properties.Settings.Default.QuickResume;
+            this.cbQuickResume.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ImageCheck.Properties.Settings.Default, "QuickResume", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cbQuickResume.Location = new System.Drawing.Point(6, 6);
+            this.cbQuickResume.Name = "cbQuickResume";
+            this.cbQuickResume.Size = new System.Drawing.Size(91, 17);
+            this.cbQuickResume.TabIndex = 0;
+            this.cbQuickResume.Text = "Quick resume";
+            this.cbQuickResume.UseVisualStyleBackColor = true;
+            // 
+            // cbStartFullScreen
+            // 
+            this.cbStartFullScreen.AutoSize = true;
+            this.cbStartFullScreen.Checked = global::ImageCheck.Properties.Settings.Default.StartFullScreen;
+            this.cbStartFullScreen.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ImageCheck.Properties.Settings.Default, "StartFullScreen", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cbStartFullScreen.Location = new System.Drawing.Point(6, 75);
+            this.cbStartFullScreen.Name = "cbStartFullScreen";
+            this.cbStartFullScreen.Size = new System.Drawing.Size(104, 17);
+            this.cbStartFullScreen.TabIndex = 3;
+            this.cbStartFullScreen.Text = "Start Full Screen";
+            this.cbStartFullScreen.UseVisualStyleBackColor = true;
+            // 
             // ImageCheckDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1174, 581);
+            this.ClientSize = new System.Drawing.Size(1174, 593);
             this.Controls.Add(this.bnResume);
             this.Controls.Add(this.bnDirectory);
             this.Controls.Add(this.tbDirectory);
@@ -171,6 +267,10 @@
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.tabControl.ResumeLayout(false);
+            this.tabImages.ResumeLayout(false);
+            this.tabSettings.ResumeLayout(false);
+            this.tabSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeleteMark)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -189,6 +289,13 @@
         private System.Windows.Forms.Button bnDirectory;
         private System.Windows.Forms.PictureBox pbDeleteMark;
         private System.Windows.Forms.Button bnResume;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage tabImages;
+        private System.Windows.Forms.TabPage tabSettings;
+        private System.Windows.Forms.CheckBox cbSaveNoQuestions;
+        private System.Windows.Forms.CheckBox cbDeleteProceed;
+        private System.Windows.Forms.CheckBox cbQuickResume;
+        private System.Windows.Forms.CheckBox cbStartFullScreen;
     }
 }
 

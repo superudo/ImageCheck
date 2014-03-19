@@ -30,11 +30,28 @@ namespace ImageCheck
             pbDeleteMark.BackColor = Color.Transparent;
             pbDeleteMark.Parent = pictureBox1;
             pbDeleteMark.Visible = false;
+
+            bool quickResume = (bool)Properties.Settings.Default["QuickResume"];
+            if (quickResume)
+            {
+                ResumeLastPosition();
+            }
+            else
+            {
+                bnResume.Enabled = !String.IsNullOrEmpty(Properties.Settings.Default["LastDirectory"].ToString());
+            }
+
+            bool fullScreen = (bool)Properties.Settings.Default["StartFullScreen"];
+            if (fullScreen)
+            {
+                this.WindowState = FormWindowState.Maximized;
+            }
         }
 
         private bool CheckSaveAndContiune()
         {
-            if (Changed)
+            bool noSaveQuestion = (bool)Properties.Settings.Default["NoSaveQuestion"];
+            if (!noSaveQuestion && Changed)
             {
                 System.Windows.Forms.DialogResult res = MessageBox.Show("Current directory state has changed.\nSave changes?", "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
                 if (res == System.Windows.Forms.DialogResult.Cancel)
@@ -276,6 +293,7 @@ namespace ImageCheck
             {
                 e.Cancel = true;
             }
+            Properties.Settings.Default.Save();
         }
 
         private void bnErase_Click(object sender, EventArgs e)
@@ -313,8 +331,14 @@ namespace ImageCheck
 
         private void bnResume_Click(object sender, EventArgs e)
         {
+            ResumeLastPosition();
+        }
+
+        private void ResumeLastPosition()
+        {
             string lastDir = Properties.Settings.Default["LastDirectory"].ToString();
             SetNewDirectory(lastDir);
+            bnResume.Enabled = false;
         }
     }
 }
