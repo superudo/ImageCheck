@@ -112,6 +112,7 @@ namespace ImageCheck
 
         private void PopulateImageList(List<string> deletedFiles)
         {
+            Cursor.Current = Cursors.WaitCursor;
             string lastFile = Properties.Settings.Default["LastFile"].ToString();
 
             lbImages.Items.Clear();
@@ -140,6 +141,7 @@ namespace ImageCheck
                 }
                 ++idx;
             }
+            Cursor.Current = Cursors.Default;
 
             lbImages.SelectedIndex = foundAt;
         }
@@ -219,6 +221,7 @@ namespace ImageCheck
 
         private void ImageCheckDialog_KeyDown(object sender, KeyEventArgs e)
         {
+            e.SuppressKeyPress = true;
             switch (e.KeyCode)
             {
                 case Keys.Delete:
@@ -229,37 +232,49 @@ namespace ImageCheck
                         pbDeleteMark.Visible = imgFile.Deleted;
                         Changed = true;
                     }
-                    e.SuppressKeyPress = true;
+                    if ((bool)Properties.Settings.Default["ProceedOnDelete"])
+                    {
+                        ProceedToNextPicture();
+                    }
                     break;
                 case Keys.Right:
                 case Keys.Down:
                 case Keys.Space:
-                    if (lbImages.SelectedIndex < lbImages.Items.Count - 1) {
-                        lbImages.SelectedIndex++;
-                    };
-                    e.SuppressKeyPress = true;
+                    ProceedToNextPicture();
                     break;
                 case Keys.Left:
                 case Keys.Up:
-                    if (lbImages.SelectedIndex > 0)
-                    {
-                        lbImages.SelectedIndex--;
-                    }
-                    e.SuppressKeyPress = true;
+                    ProceedToPreviousPicture();
                     break;
                 case Keys.Home:
                     lbImages.SelectedIndex = 0;
-                    e.SuppressKeyPress = true;
                     break;
                 case Keys.End:
                     lbImages.SelectedIndex = lbImages.Items.Count - 1;
-                    e.SuppressKeyPress = true;
                     break;
                 case Keys.Escape:
                     Close();
-                    e.SuppressKeyPress = true;
+                    break;
+                default:
+                    e.SuppressKeyPress = false;
                     break;
             }
+        }
+
+        private void ProceedToPreviousPicture()
+        {
+            if (lbImages.SelectedIndex > 0)
+            {
+                lbImages.SelectedIndex--;
+            }
+        }
+
+        private void ProceedToNextPicture()
+        {
+            if (lbImages.SelectedIndex < lbImages.Items.Count - 1)
+            {
+                lbImages.SelectedIndex++;
+            };
         }
 
         private void bnSave_Click(object sender, EventArgs e)
