@@ -28,11 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImageCheckDialog));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabImages = new System.Windows.Forms.TabPage();
             this.lbImages = new System.Windows.Forms.ListBox();
             this.tabSettings = new System.Windows.Forms.TabPage();
+            this.cbStartFullScreen = new System.Windows.Forms.CheckBox();
+            this.cbSaveNoQuestions = new System.Windows.Forms.CheckBox();
+            this.cbDeleteProceed = new System.Windows.Forms.CheckBox();
+            this.cbQuickResume = new System.Windows.Forms.CheckBox();
             this.pbDeleteMark = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.bnErase = new System.Windows.Forms.Button();
@@ -40,10 +45,6 @@
             this.tbDirectory = new System.Windows.Forms.TextBox();
             this.bnDirectory = new System.Windows.Forms.Button();
             this.bnResume = new System.Windows.Forms.Button();
-            this.cbSaveNoQuestions = new System.Windows.Forms.CheckBox();
-            this.cbDeleteProceed = new System.Windows.Forms.CheckBox();
-            this.cbQuickResume = new System.Windows.Forms.CheckBox();
-            this.cbStartFullScreen = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -123,6 +124,55 @@
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
             // 
+            // cbStartFullScreen
+            // 
+            this.cbStartFullScreen.AutoSize = true;
+            this.cbStartFullScreen.Checked = global::ImageCheck.Properties.Settings.Default.StartFullScreen;
+            this.cbStartFullScreen.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ImageCheck.Properties.Settings.Default, "StartFullScreen", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cbStartFullScreen.Location = new System.Drawing.Point(6, 75);
+            this.cbStartFullScreen.Name = "cbStartFullScreen";
+            this.cbStartFullScreen.Size = new System.Drawing.Size(104, 17);
+            this.cbStartFullScreen.TabIndex = 3;
+            this.cbStartFullScreen.Text = "Start Full Screen";
+            this.cbStartFullScreen.UseVisualStyleBackColor = true;
+            // 
+            // cbSaveNoQuestions
+            // 
+            this.cbSaveNoQuestions.AutoSize = true;
+            this.cbSaveNoQuestions.Checked = global::ImageCheck.Properties.Settings.Default.NoSaveQuestion;
+            this.cbSaveNoQuestions.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ImageCheck.Properties.Settings.Default, "NoSaveQuestion", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cbSaveNoQuestions.Location = new System.Drawing.Point(6, 52);
+            this.cbSaveNoQuestions.Name = "cbSaveNoQuestions";
+            this.cbSaveNoQuestions.Size = new System.Drawing.Size(109, 17);
+            this.cbSaveNoQuestions.TabIndex = 2;
+            this.cbSaveNoQuestions.Text = "No save question";
+            this.cbSaveNoQuestions.UseVisualStyleBackColor = true;
+            // 
+            // cbDeleteProceed
+            // 
+            this.cbDeleteProceed.AutoSize = true;
+            this.cbDeleteProceed.Checked = global::ImageCheck.Properties.Settings.Default.ProceedOnDelete;
+            this.cbDeleteProceed.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbDeleteProceed.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ImageCheck.Properties.Settings.Default, "ProceedOnDelete", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cbDeleteProceed.Location = new System.Drawing.Point(6, 29);
+            this.cbDeleteProceed.Name = "cbDeleteProceed";
+            this.cbDeleteProceed.Size = new System.Drawing.Size(107, 17);
+            this.cbDeleteProceed.TabIndex = 1;
+            this.cbDeleteProceed.Text = "Delete goto next ";
+            this.cbDeleteProceed.UseVisualStyleBackColor = true;
+            // 
+            // cbQuickResume
+            // 
+            this.cbQuickResume.AutoSize = true;
+            this.cbQuickResume.Checked = global::ImageCheck.Properties.Settings.Default.QuickResume;
+            this.cbQuickResume.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ImageCheck.Properties.Settings.Default, "QuickResume", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cbQuickResume.Location = new System.Drawing.Point(6, 6);
+            this.cbQuickResume.Name = "cbQuickResume";
+            this.cbQuickResume.Size = new System.Drawing.Size(91, 17);
+            this.cbQuickResume.TabIndex = 0;
+            this.cbQuickResume.Text = "Quick resume";
+            this.cbQuickResume.UseVisualStyleBackColor = true;
+            // 
             // pbDeleteMark
             // 
             this.pbDeleteMark.BackColor = System.Drawing.Color.Transparent;
@@ -195,55 +245,6 @@
             this.bnResume.UseVisualStyleBackColor = true;
             this.bnResume.Click += new System.EventHandler(this.bnResume_Click);
             // 
-            // cbSaveNoQuestions
-            // 
-            this.cbSaveNoQuestions.AutoSize = true;
-            this.cbSaveNoQuestions.Checked = global::ImageCheck.Properties.Settings.Default.NoSaveQuestion;
-            this.cbSaveNoQuestions.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ImageCheck.Properties.Settings.Default, "NoSaveQuestion", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.cbSaveNoQuestions.Location = new System.Drawing.Point(6, 52);
-            this.cbSaveNoQuestions.Name = "cbSaveNoQuestions";
-            this.cbSaveNoQuestions.Size = new System.Drawing.Size(109, 17);
-            this.cbSaveNoQuestions.TabIndex = 2;
-            this.cbSaveNoQuestions.Text = "No save question";
-            this.cbSaveNoQuestions.UseVisualStyleBackColor = true;
-            // 
-            // cbDeleteProceed
-            // 
-            this.cbDeleteProceed.AutoSize = true;
-            this.cbDeleteProceed.Checked = global::ImageCheck.Properties.Settings.Default.ProceedOnDelete;
-            this.cbDeleteProceed.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbDeleteProceed.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ImageCheck.Properties.Settings.Default, "ProceedOnDelete", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.cbDeleteProceed.Location = new System.Drawing.Point(6, 29);
-            this.cbDeleteProceed.Name = "cbDeleteProceed";
-            this.cbDeleteProceed.Size = new System.Drawing.Size(107, 17);
-            this.cbDeleteProceed.TabIndex = 1;
-            this.cbDeleteProceed.Text = "Delete goto next ";
-            this.cbDeleteProceed.UseVisualStyleBackColor = true;
-            // 
-            // cbQuickResume
-            // 
-            this.cbQuickResume.AutoSize = true;
-            this.cbQuickResume.Checked = global::ImageCheck.Properties.Settings.Default.QuickResume;
-            this.cbQuickResume.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ImageCheck.Properties.Settings.Default, "QuickResume", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.cbQuickResume.Location = new System.Drawing.Point(6, 6);
-            this.cbQuickResume.Name = "cbQuickResume";
-            this.cbQuickResume.Size = new System.Drawing.Size(91, 17);
-            this.cbQuickResume.TabIndex = 0;
-            this.cbQuickResume.Text = "Quick resume";
-            this.cbQuickResume.UseVisualStyleBackColor = true;
-            // 
-            // cbStartFullScreen
-            // 
-            this.cbStartFullScreen.AutoSize = true;
-            this.cbStartFullScreen.Checked = global::ImageCheck.Properties.Settings.Default.StartFullScreen;
-            this.cbStartFullScreen.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::ImageCheck.Properties.Settings.Default, "StartFullScreen", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.cbStartFullScreen.Location = new System.Drawing.Point(6, 75);
-            this.cbStartFullScreen.Name = "cbStartFullScreen";
-            this.cbStartFullScreen.Size = new System.Drawing.Size(104, 17);
-            this.cbStartFullScreen.TabIndex = 3;
-            this.cbStartFullScreen.Text = "Start Full Screen";
-            this.cbStartFullScreen.UseVisualStyleBackColor = true;
-            // 
             // ImageCheckDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -255,6 +256,7 @@
             this.Controls.Add(this.bnSave);
             this.Controls.Add(this.bnErase);
             this.Controls.Add(this.splitContainer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "ImageCheckDialog";
             this.Text = "ImageCheck";
