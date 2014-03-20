@@ -17,6 +17,32 @@ namespace ImageCheck
     {
         static private string SaveFileName = ".imageCheck";
 
+        private string _currentDirectory = "";
+        private string CurrentDirectory { 
+            get
+            {
+                return _currentDirectory;
+            }
+            set
+            {
+                if (value != _currentDirectory)
+                {
+                    _currentDirectory = value;
+                    if (!string.IsNullOrEmpty(_currentDirectory))
+                    {
+                        this.Text = String.Format("{0}: {1}", 
+                            Properties.Resources.ModuleName, 
+                            _currentDirectory
+                        );
+                    }
+                    else
+                    {
+                        this.Text = Properties.Resources.ModuleName;
+                    }
+                }
+            }
+        }
+
         private bool Changed { get; set; }
 
         public ImageCheckDialog()
@@ -71,10 +97,10 @@ namespace ImageCheck
             if (CheckSaveAndContiune())
             {
                 FolderBrowserDialog dlg = new FolderBrowserDialog();
-                dlg.SelectedPath = tbDirectory.Text;
+                dlg.SelectedPath = CurrentDirectory;
                 if (dlg.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
                 {
-                    if (dlg.SelectedPath != tbDirectory.Text)
+                    if (dlg.SelectedPath != CurrentDirectory)
                     {
                         SetNewDirectory(dlg.SelectedPath);
                     }
@@ -88,7 +114,7 @@ namespace ImageCheck
             {
                 return;
             }
-            tbDirectory.Text = p;
+            CurrentDirectory = p;
             Properties.Settings.Default["LastDirectory"] = p;
             Properties.Settings.Default.Save();
 
@@ -103,7 +129,6 @@ namespace ImageCheck
                     {
                         deletedFiles.Add(line);
                     }
-                    r.Close();
                 }
             }
             PopulateImageList(deletedFiles);
@@ -120,7 +145,7 @@ namespace ImageCheck
 
             foreach (string ext in new String[] { "jpg", "jpeg", "gif", "png", "tif", "tiff", "bmp" })
             {
-                foreach (string f in Directory.GetFiles(tbDirectory.Text, String.Format("*.{0}", ext), System.IO.SearchOption.TopDirectoryOnly))
+                foreach (string f in Directory.GetFiles(CurrentDirectory, String.Format("*.{0}", ext), System.IO.SearchOption.TopDirectoryOnly))
                 {
                     fileNames.Add(f);  
                 }
@@ -287,7 +312,7 @@ namespace ImageCheck
 
         private void SaveData()
         {
-            string fName = Path.Combine(tbDirectory.Text, SaveFileName);
+            string fName = Path.Combine(CurrentDirectory, SaveFileName);
             using (StreamWriter wr = new StreamWriter(fName, false))
             {
                 foreach (ImageFile img in lbImages.Items)
@@ -297,7 +322,6 @@ namespace ImageCheck
                         wr.WriteLine(img.FileName);
                     }
                 }
-                wr.Close();
             }
             Changed = false;
         }
@@ -331,12 +355,12 @@ namespace ImageCheck
                 }
             }
 
-            FileSystem.DeleteFile(Path.Combine(tbDirectory.Text, SaveFileName), UIOption.OnlyErrorDialogs, RecycleOption.DeletePermanently);
+            FileSystem.DeleteFile(Path.Combine(CurrentDirectory, SaveFileName), UIOption.OnlyErrorDialogs, RecycleOption.DeletePermanently);
 
             Properties.Settings.Default["LastFile"] = "";
             Properties.Settings.Default.Save();
 
-            SetNewDirectory(tbDirectory.Text);
+            SetNewDirectory(CurrentDirectory);
         }
 
         private void ImageCheckDialog_Resize(object sender, EventArgs e)

@@ -101,6 +101,15 @@ namespace ImageCheck.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ImageCheck.
+        /// </summary>
+        internal static string ModuleName {
+            get {
+                return ResourceManager.GetString("ModuleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Resume {
