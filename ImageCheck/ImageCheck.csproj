@@ -84,6 +84,18 @@
   <ItemGroup>
     <None Include="Resources\Awicons-Vista-Artistic-Delete_page_0007.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Resume.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\data.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bomb.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

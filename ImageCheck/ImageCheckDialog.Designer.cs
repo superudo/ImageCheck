@@ -38,13 +38,13 @@
             this.cbSaveNoQuestions = new System.Windows.Forms.CheckBox();
             this.cbDeleteProceed = new System.Windows.Forms.CheckBox();
             this.cbQuickResume = new System.Windows.Forms.CheckBox();
+            this.tbDirectory = new System.Windows.Forms.TextBox();
+            this.bnResume = new System.Windows.Forms.Button();
+            this.bnDirectory = new System.Windows.Forms.Button();
+            this.bnSave = new System.Windows.Forms.Button();
+            this.bnErase = new System.Windows.Forms.Button();
             this.pbDeleteMark = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.bnErase = new System.Windows.Forms.Button();
-            this.bnSave = new System.Windows.Forms.Button();
-            this.tbDirectory = new System.Windows.Forms.TextBox();
-            this.bnDirectory = new System.Windows.Forms.Button();
-            this.bnResume = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -173,10 +173,61 @@
             this.cbQuickResume.Text = "Quick resume";
             this.cbQuickResume.UseVisualStyleBackColor = true;
             // 
+            // tbDirectory
+            // 
+            this.tbDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbDirectory.Location = new System.Drawing.Point(80, 12);
+            this.tbDirectory.Name = "tbDirectory";
+            this.tbDirectory.Size = new System.Drawing.Size(1014, 20);
+            this.tbDirectory.TabIndex = 4;
+            // 
+            // bnResume
+            // 
+            this.bnResume.Image = global::ImageCheck.Properties.Resources.Resume;
+            this.bnResume.Location = new System.Drawing.Point(12, 7);
+            this.bnResume.Name = "bnResume";
+            this.bnResume.Size = new System.Drawing.Size(28, 28);
+            this.bnResume.TabIndex = 6;
+            this.bnResume.UseVisualStyleBackColor = true;
+            this.bnResume.Click += new System.EventHandler(this.bnResume_Click);
+            // 
+            // bnDirectory
+            // 
+            this.bnDirectory.Image = global::ImageCheck.Properties.Resources.folder;
+            this.bnDirectory.Location = new System.Drawing.Point(46, 7);
+            this.bnDirectory.Name = "bnDirectory";
+            this.bnDirectory.Size = new System.Drawing.Size(28, 28);
+            this.bnDirectory.TabIndex = 5;
+            this.bnDirectory.UseVisualStyleBackColor = true;
+            this.bnDirectory.Click += new System.EventHandler(this.bnDirectory_Click);
+            // 
+            // bnSave
+            // 
+            this.bnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bnSave.Image = global::ImageCheck.Properties.Resources.data;
+            this.bnSave.Location = new System.Drawing.Point(1100, 8);
+            this.bnSave.Name = "bnSave";
+            this.bnSave.Size = new System.Drawing.Size(28, 28);
+            this.bnSave.TabIndex = 3;
+            this.bnSave.UseVisualStyleBackColor = true;
+            this.bnSave.Click += new System.EventHandler(this.bnSave_Click);
+            // 
+            // bnErase
+            // 
+            this.bnErase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bnErase.Image = global::ImageCheck.Properties.Resources.bomb;
+            this.bnErase.Location = new System.Drawing.Point(1134, 8);
+            this.bnErase.Name = "bnErase";
+            this.bnErase.Size = new System.Drawing.Size(28, 28);
+            this.bnErase.TabIndex = 2;
+            this.bnErase.UseVisualStyleBackColor = true;
+            this.bnErase.Click += new System.EventHandler(this.bnErase_Click);
+            // 
             // pbDeleteMark
             // 
             this.pbDeleteMark.BackColor = System.Drawing.Color.Transparent;
-            this.pbDeleteMark.Location = new System.Drawing.Point(995, 496);
+            this.pbDeleteMark.Location = new System.Drawing.Point(979, 508);
             this.pbDeleteMark.Name = "pbDeleteMark";
             this.pbDeleteMark.Size = new System.Drawing.Size(32, 32);
             this.pbDeleteMark.TabIndex = 1;
@@ -193,57 +244,6 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            // 
-            // bnErase
-            // 
-            this.bnErase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bnErase.Location = new System.Drawing.Point(1087, 11);
-            this.bnErase.Name = "bnErase";
-            this.bnErase.Size = new System.Drawing.Size(75, 23);
-            this.bnErase.TabIndex = 2;
-            this.bnErase.Text = "Erase it!";
-            this.bnErase.UseVisualStyleBackColor = true;
-            this.bnErase.Click += new System.EventHandler(this.bnErase_Click);
-            // 
-            // bnSave
-            // 
-            this.bnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bnSave.Location = new System.Drawing.Point(1006, 11);
-            this.bnSave.Name = "bnSave";
-            this.bnSave.Size = new System.Drawing.Size(75, 23);
-            this.bnSave.TabIndex = 3;
-            this.bnSave.Text = "Save";
-            this.bnSave.UseVisualStyleBackColor = true;
-            this.bnSave.Click += new System.EventHandler(this.bnSave_Click);
-            // 
-            // tbDirectory
-            // 
-            this.tbDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbDirectory.Location = new System.Drawing.Point(175, 12);
-            this.tbDirectory.Name = "tbDirectory";
-            this.tbDirectory.Size = new System.Drawing.Size(825, 20);
-            this.tbDirectory.TabIndex = 4;
-            // 
-            // bnDirectory
-            // 
-            this.bnDirectory.Location = new System.Drawing.Point(94, 9);
-            this.bnDirectory.Name = "bnDirectory";
-            this.bnDirectory.Size = new System.Drawing.Size(75, 23);
-            this.bnDirectory.TabIndex = 5;
-            this.bnDirectory.Text = "Select...";
-            this.bnDirectory.UseVisualStyleBackColor = true;
-            this.bnDirectory.Click += new System.EventHandler(this.bnDirectory_Click);
-            // 
-            // bnResume
-            // 
-            this.bnResume.Location = new System.Drawing.Point(13, 9);
-            this.bnResume.Name = "bnResume";
-            this.bnResume.Size = new System.Drawing.Size(75, 23);
-            this.bnResume.TabIndex = 6;
-            this.bnResume.Text = "Resume";
-            this.bnResume.UseVisualStyleBackColor = true;
-            this.bnResume.Click += new System.EventHandler(this.bnResume_Click);
             // 
             // ImageCheckDialog
             // 
