@@ -1,15 +1,9 @@
-﻿using Microsoft.VisualBasic.FileIO;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualBasic.FileIO;
 
 namespace ImageCheck
 {
@@ -17,6 +11,7 @@ namespace ImageCheck
     {
         static private string SaveFileName = ".imageCheck";
 
+        #region Properties
         private string _currentDirectory = "";
         private string CurrentDirectory { 
             get
@@ -44,12 +39,80 @@ namespace ImageCheck
         }
 
         private bool Changed { get; set; }
+        #endregion
+
+        #region Settings
+        private bool ProceedOnDelete
+        {
+            get
+            {
+                return (bool)Properties.Settings.Default["ProceedOnDelete"];
+            }
+        }
+
+        private bool DoQuickResume
+        {
+            get
+            {
+                return (bool)Properties.Settings.Default["QuickResume"];
+            }
+        }
+
+        private bool DoStartFullSrceen
+        {
+            get
+            {
+                return (bool)Properties.Settings.Default["StartFullScreen"];
+            }
+        }
+
+        private string LastDirectory
+        {
+            get
+            {
+                return Properties.Settings.Default["LastDirectory"].ToString();
+            }
+            set
+            {
+                if (Properties.Settings.Default["LastDirectory"].ToString() != value)
+                {
+                    Properties.Settings.Default["LastDirectory"] = value;
+                    Properties.Settings.Default.Save();
+                }
+            }
+        }
+
+        private static string LastFile
+        {
+            get
+            {
+                return Properties.Settings.Default["LastFile"].ToString();
+            }
+            set
+            {
+                if (Properties.Settings.Default["LastFile"].ToString() != value)
+                {
+                    Properties.Settings.Default["LastFile"] = value;
+                    Properties.Settings.Default.Save();
+                }
+            }
+        }
+
+        private bool SupressSaveQuestion
+        {
+            get
+            {
+                return (bool)Properties.Settings.Default["NoSaveQuestion"];
+            }
+        }
+        #endregion
 
         public ImageCheckDialog()
         {
             InitializeComponent();
         }
 
+        #region Form Events
         private void ImageCheckDialog_Load(object sender, EventArgs e)
         {
             pbDeleteMark.Image = ImageCheck.Properties.Resources.deleted;
@@ -57,27 +120,38 @@ namespace ImageCheck
             pbDeleteMark.Parent = pictureBox1;
             pbDeleteMark.Visible = false;
 
-            bool quickResume = (bool)Properties.Settings.Default["QuickResume"];
-            if (quickResume)
+            if (DoQuickResume)
             {
                 ResumeLastPosition();
             }
             else
             {
-                bnResume.Enabled = !String.IsNullOrEmpty(Properties.Settings.Default["LastDirectory"].ToString());
+                bnResume.Enabled = !String.IsNullOrEmpty(LastDirectory);
             }
 
-            bool fullScreen = (bool)Properties.Settings.Default["StartFullScreen"];
-            if (fullScreen)
+            if (DoStartFullSrceen)
             {
                 this.WindowState = FormWindowState.Maximized;
             }
         }
 
+        private void ImageCheckDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!CheckSaveAndContiune())
+            {
+                e.Cancel = true;
+            }
+            Properties.Settings.Default.Save();
+        }
+
+        private void ImageCheckDialog_Resize(object sender, EventArgs e)
+        {
+            RecalculateLayout();
+        }
+
         private bool CheckSaveAndContiune()
         {
-            bool noSaveQuestion = (bool)Properties.Settings.Default["NoSaveQuestion"];
-            if (!noSaveQuestion && Changed)
+            if (!SupressSaveQuestion && Changed)
             {
                 System.Windows.Forms.DialogResult res = MessageBox.Show("Current directory state has changed.\nSave changes?", "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
                 if (res == System.Windows.Forms.DialogResult.Cancel)
@@ -91,6 +165,51 @@ namespace ImageCheck
             }
             return true;
         }
+
+        private void ImageCheckDialog_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.SuppressKeyPress = true;
+            switch (e.KeyCode)
+            {
+                case Keys.Delete:
+                    ImageFile imgFile = lbImages.SelectedItem as ImageFile;
+                    if (imgFile != null)
+                    {
+                        imgFile.Deleted = !imgFile.Deleted;
+                        pbDeleteMark.Visible = imgFile.Deleted;
+                        Changed = true;
+                        if (ProceedOnDelete && imgFile.Deleted)
+                        {
+                            ProceedToNextPicture();
+                        }
+                    }
+                    break;
+                case Keys.Right:
+                case Keys.Down:
+                case Keys.Space:
+                    ProceedToNextPicture();
+                    break;
+                case Keys.Left:
+                case Keys.Up:
+                    ProceedToPreviousPicture();
+                    break;
+                case Keys.Home:
+                    lbImages.SelectedIndex = 0;
+                    break;
+                case Keys.End:
+                    lbImages.SelectedIndex = lbImages.Items.Count - 1;
+                    break;
+                case Keys.Escape:
+                    Close();
+                    break;
+                default:
+                    e.SuppressKeyPress = false;
+                    break;
+            }
+        }
+        #endregion
+
+        #region Button Events
 
         private void bnDirectory_Click(object sender, EventArgs e)
         {
@@ -108,6 +227,48 @@ namespace ImageCheck
             }
         }
 
+        private void bnErase_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.DialogResult res = MessageBox.Show("All files marked for deletion will be erased.\nContinue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (res == System.Windows.Forms.DialogResult.Yes)
+            {
+                EraseFiles();
+            }
+        }
+
+        private void bnResume_Click(object sender, EventArgs e)
+        {
+            ResumeLastPosition();
+        }
+
+        private void bnSave_Click(object sender, EventArgs e)
+        {
+            if (Changed)
+            {
+                SaveData();
+            }
+        }
+        #endregion
+
+        #region List Box Events
+
+        private void lbImages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListBox lb = (ListBox)sender;
+            ImageFile f = lb.SelectedItem as ImageFile;
+            if (f != null)
+            {
+                LastFile = f.FileName;
+            }
+            else
+            {
+                pbDeleteMark.Visible = false;
+            }
+            LoadImage(f);
+        }
+
+        #endregion
+
         private void SetNewDirectory(string p)
         {
             if (String.IsNullOrEmpty(p))
@@ -115,8 +276,7 @@ namespace ImageCheck
                 return;
             }
             CurrentDirectory = p;
-            Properties.Settings.Default["LastDirectory"] = p;
-            Properties.Settings.Default.Save();
+            LastDirectory = p;
 
             string f = Path.Combine(p, SaveFileName);
             List<string> deletedFiles = new List<string>();
@@ -133,12 +293,13 @@ namespace ImageCheck
             }
             PopulateImageList(deletedFiles);
             Changed = false;
+
+            pictureBox1.Focus();
         }
 
         private void PopulateImageList(List<string> deletedFiles)
         {
             Cursor.Current = Cursors.WaitCursor;
-            string lastFile = Properties.Settings.Default["LastFile"].ToString();
 
             lbImages.Items.Clear();
             List<string> fileNames = new List<string>();
@@ -160,7 +321,7 @@ namespace ImageCheck
                 ImageFile img = new ImageFile(f);
                 img.Deleted = deletedFiles.Contains(Path.GetFileName(f));
                 lbImages.Items.Add(img);
-                if (img.FileName == lastFile)
+                if (img.FileName == LastFile)
                 {
                     foundAt = idx;
                 }
@@ -169,22 +330,6 @@ namespace ImageCheck
             Cursor.Current = Cursors.Default;
 
             lbImages.SelectedIndex = foundAt;
-        }
-
-        private void lbImages_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ListBox lb = (ListBox)sender;
-            ImageFile f = lb.SelectedItem as ImageFile;
-            if (f != null)
-            {
-                Properties.Settings.Default["LastFile"] = f.FileName;
-                Properties.Settings.Default.Save();
-            }
-            else
-            {
-                pbDeleteMark.Visible = false;
-            }
-            LoadImage(f);
         }
 
         private void LoadImage(ImageFile f)
@@ -244,48 +389,6 @@ namespace ImageCheck
             }
         }
 
-        private void ImageCheckDialog_KeyDown(object sender, KeyEventArgs e)
-        {
-            e.SuppressKeyPress = true;
-            switch (e.KeyCode)
-            {
-                case Keys.Delete:
-                    ImageFile imgFile = lbImages.SelectedItem as ImageFile;
-                    if (imgFile != null)
-                    {
-                        imgFile.Deleted = !imgFile.Deleted;
-                        pbDeleteMark.Visible = imgFile.Deleted;
-                        Changed = true;
-                    }
-                    if ((bool)Properties.Settings.Default["ProceedOnDelete"])
-                    {
-                        ProceedToNextPicture();
-                    }
-                    break;
-                case Keys.Right:
-                case Keys.Down:
-                case Keys.Space:
-                    ProceedToNextPicture();
-                    break;
-                case Keys.Left:
-                case Keys.Up:
-                    ProceedToPreviousPicture();
-                    break;
-                case Keys.Home:
-                    lbImages.SelectedIndex = 0;
-                    break;
-                case Keys.End:
-                    lbImages.SelectedIndex = lbImages.Items.Count - 1;
-                    break;
-                case Keys.Escape:
-                    Close();
-                    break;
-                default:
-                    e.SuppressKeyPress = false;
-                    break;
-            }
-        }
-
         private void ProceedToPreviousPicture()
         {
             if (lbImages.SelectedIndex > 0)
@@ -300,14 +403,6 @@ namespace ImageCheck
             {
                 lbImages.SelectedIndex++;
             };
-        }
-
-        private void bnSave_Click(object sender, EventArgs e)
-        {
-            if (Changed)
-            {
-                SaveData();
-            }
         }
 
         private void SaveData()
@@ -326,24 +421,6 @@ namespace ImageCheck
             Changed = false;
         }
 
-        private void ImageCheckDialog_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (!CheckSaveAndContiune())
-            {
-                e.Cancel = true;
-            }
-            Properties.Settings.Default.Save();
-        }
-
-        private void bnErase_Click(object sender, EventArgs e)
-        {
-            System.Windows.Forms.DialogResult res = MessageBox.Show("All files marked for deletion will be erased.\nContinue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (res == System.Windows.Forms.DialogResult.Yes) 
-            {
-                EraseFiles();
-            }
-        }
-
         private void EraseFiles()
         {
             lbImages.SelectedIndex = -1;
@@ -357,27 +434,16 @@ namespace ImageCheck
 
             FileSystem.DeleteFile(Path.Combine(CurrentDirectory, SaveFileName), UIOption.OnlyErrorDialogs, RecycleOption.DeletePermanently);
 
-            Properties.Settings.Default["LastFile"] = "";
-            Properties.Settings.Default.Save();
+            LastFile = "";
 
             SetNewDirectory(CurrentDirectory);
         }
 
-        private void ImageCheckDialog_Resize(object sender, EventArgs e)
-        {
-            RecalculateLayout();
-        }
-
-        private void bnResume_Click(object sender, EventArgs e)
-        {
-            ResumeLastPosition();
-        }
-
         private void ResumeLastPosition()
         {
-            string lastDir = Properties.Settings.Default["LastDirectory"].ToString();
-            SetNewDirectory(lastDir);
+            SetNewDirectory(LastDirectory);
             bnResume.Enabled = false;
         }
+
     }
 }

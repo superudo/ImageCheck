@@ -113,6 +113,7 @@
             this.bnSave.Name = "bnSave";
             this.bnSave.Size = new System.Drawing.Size(28, 28);
             this.bnSave.TabIndex = 8;
+            this.bnSave.TabStop = false;
             this.ttButtonTip.SetToolTip(this.bnSave, "Save Data");
             this.bnSave.UseVisualStyleBackColor = true;
             this.bnSave.Click += new System.EventHandler(this.bnSave_Click);
@@ -124,6 +125,7 @@
             this.bnResume.Name = "bnResume";
             this.bnResume.Size = new System.Drawing.Size(28, 28);
             this.bnResume.TabIndex = 7;
+            this.bnResume.TabStop = false;
             this.ttButtonTip.SetToolTip(this.bnResume, "Resume Operation");
             this.bnResume.UseVisualStyleBackColor = true;
             this.bnResume.Click += new System.EventHandler(this.bnResume_Click);
@@ -136,6 +138,7 @@
             this.bnErase.Name = "bnErase";
             this.bnErase.Size = new System.Drawing.Size(28, 28);
             this.bnErase.TabIndex = 6;
+            this.bnErase.TabStop = false;
             this.ttButtonTip.SetToolTip(this.bnErase, "Erase Files");
             this.bnErase.UseVisualStyleBackColor = true;
             this.bnErase.Click += new System.EventHandler(this.bnErase_Click);
@@ -158,6 +161,7 @@
             this.bnDirectory.Name = "bnDirectory";
             this.bnDirectory.Size = new System.Drawing.Size(28, 28);
             this.bnDirectory.TabIndex = 5;
+            this.bnDirectory.TabStop = false;
             this.ttButtonTip.SetToolTip(this.bnDirectory, "Open Directory");
             this.bnDirectory.UseVisualStyleBackColor = true;
             this.bnDirectory.Click += new System.EventHandler(this.bnDirectory_Click);
