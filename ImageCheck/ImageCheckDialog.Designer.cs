@@ -39,13 +39,17 @@
             this.lbImages = new System.Windows.Forms.ListBox();
             this.bnDirectory = new System.Windows.Forms.Button();
             this.tabSettings = new System.Windows.Forms.TabPage();
+            this.pbColorSelection = new System.Windows.Forms.PictureBox();
+            this.pbDeleteMark = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.ttButtonTip = new System.Windows.Forms.ToolTip(this.components);
+            this.bnColorWhite = new System.Windows.Forms.Button();
+            this.bnColorBlack = new System.Windows.Forms.Button();
+            this.bnColorControl = new System.Windows.Forms.Button();
             this.cbStartFullScreen = new System.Windows.Forms.CheckBox();
             this.cbSaveNoQuestions = new System.Windows.Forms.CheckBox();
             this.cbDeleteProceed = new System.Windows.Forms.CheckBox();
             this.cbQuickResume = new System.Windows.Forms.CheckBox();
-            this.pbDeleteMark = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.ttButtonTip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -53,6 +57,7 @@
             this.tabControl.SuspendLayout();
             this.tabImages.SuspendLayout();
             this.tabSettings.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbColorSelection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeleteMark)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -168,6 +173,10 @@
             // 
             // tabSettings
             // 
+            this.tabSettings.Controls.Add(this.bnColorControl);
+            this.tabSettings.Controls.Add(this.bnColorBlack);
+            this.tabSettings.Controls.Add(this.bnColorWhite);
+            this.tabSettings.Controls.Add(this.pbColorSelection);
             this.tabSettings.Controls.Add(this.cbStartFullScreen);
             this.tabSettings.Controls.Add(this.cbSaveNoQuestions);
             this.tabSettings.Controls.Add(this.cbDeleteProceed);
@@ -179,6 +188,77 @@
             this.tabSettings.TabIndex = 1;
             this.tabSettings.Text = "Control";
             this.tabSettings.UseVisualStyleBackColor = true;
+            // 
+            // pbColorSelection
+            // 
+            this.pbColorSelection.Image = global::ImageCheck.Properties.Resources.colorpal1;
+            this.pbColorSelection.Location = new System.Drawing.Point(3, 150);
+            this.pbColorSelection.Name = "pbColorSelection";
+            this.pbColorSelection.Size = new System.Drawing.Size(120, 83);
+            this.pbColorSelection.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbColorSelection.TabIndex = 4;
+            this.pbColorSelection.TabStop = false;
+            this.pbColorSelection.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbColorSelection_MouseDown);
+            this.pbColorSelection.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbColorSelection_MouseMove);
+            this.pbColorSelection.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbColorSelection_MouseUp);
+            // 
+            // pbDeleteMark
+            // 
+            this.pbDeleteMark.BackColor = System.Drawing.Color.Transparent;
+            this.pbDeleteMark.Location = new System.Drawing.Point(979, 508);
+            this.pbDeleteMark.Name = "pbDeleteMark";
+            this.pbDeleteMark.Size = new System.Drawing.Size(32, 32);
+            this.pbDeleteMark.TabIndex = 1;
+            this.pbDeleteMark.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(1);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(1011, 569);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // bnColorWhite
+            // 
+            this.bnColorWhite.BackColor = System.Drawing.Color.White;
+            this.bnColorWhite.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.bnColorWhite.Location = new System.Drawing.Point(6, 239);
+            this.bnColorWhite.Name = "bnColorWhite";
+            this.bnColorWhite.Size = new System.Drawing.Size(109, 23);
+            this.bnColorWhite.TabIndex = 5;
+            this.bnColorWhite.Text = "White";
+            this.bnColorWhite.UseVisualStyleBackColor = false;
+            this.bnColorWhite.Click += new System.EventHandler(this.bnColorWhite_Click);
+            // 
+            // bnColorBlack
+            // 
+            this.bnColorBlack.BackColor = System.Drawing.Color.Black;
+            this.bnColorBlack.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.bnColorBlack.ForeColor = System.Drawing.Color.Snow;
+            this.bnColorBlack.Location = new System.Drawing.Point(6, 268);
+            this.bnColorBlack.Name = "bnColorBlack";
+            this.bnColorBlack.Size = new System.Drawing.Size(109, 23);
+            this.bnColorBlack.TabIndex = 6;
+            this.bnColorBlack.Text = "Black";
+            this.bnColorBlack.UseVisualStyleBackColor = false;
+            this.bnColorBlack.Click += new System.EventHandler(this.bnColorBlack_Click);
+            // 
+            // bnColorControl
+            // 
+            this.bnColorControl.BackColor = System.Drawing.SystemColors.Control;
+            this.bnColorControl.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.bnColorControl.Location = new System.Drawing.Point(6, 297);
+            this.bnColorControl.Name = "bnColorControl";
+            this.bnColorControl.Size = new System.Drawing.Size(109, 23);
+            this.bnColorControl.TabIndex = 7;
+            this.bnColorControl.Text = "Control";
+            this.bnColorControl.UseVisualStyleBackColor = false;
+            this.bnColorControl.Click += new System.EventHandler(this.bnColorControl_Click);
             // 
             // cbStartFullScreen
             // 
@@ -229,27 +309,6 @@
             this.cbQuickResume.Text = "Quick resume";
             this.cbQuickResume.UseVisualStyleBackColor = true;
             // 
-            // pbDeleteMark
-            // 
-            this.pbDeleteMark.BackColor = System.Drawing.Color.Transparent;
-            this.pbDeleteMark.Location = new System.Drawing.Point(979, 508);
-            this.pbDeleteMark.Name = "pbDeleteMark";
-            this.pbDeleteMark.Size = new System.Drawing.Size(32, 32);
-            this.pbDeleteMark.TabIndex = 1;
-            this.pbDeleteMark.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(1);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1011, 569);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
             // ImageCheckDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -273,6 +332,7 @@
             this.tabImages.ResumeLayout(false);
             this.tabSettings.ResumeLayout(false);
             this.tabSettings.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbColorSelection)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeleteMark)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -297,6 +357,10 @@
         private System.Windows.Forms.Button bnResume;
         private System.Windows.Forms.Button bnErase;
         private System.Windows.Forms.ToolTip ttButtonTip;
+        private System.Windows.Forms.PictureBox pbColorSelection;
+        private System.Windows.Forms.Button bnColorControl;
+        private System.Windows.Forms.Button bnColorBlack;
+        private System.Windows.Forms.Button bnColorWhite;
     }
 }
 

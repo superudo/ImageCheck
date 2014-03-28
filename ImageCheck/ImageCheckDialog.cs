@@ -12,6 +12,9 @@ namespace ImageCheck
         static private string SaveFileName = ".imageCheck";
 
         #region Properties
+        private bool isSelecting;
+        private Color oldColor;
+
         private string _currentDirectory = "";
         private string CurrentDirectory { 
             get
@@ -105,6 +108,23 @@ namespace ImageCheck
                 return (bool)Properties.Settings.Default["NoSaveQuestion"];
             }
         }
+
+        private Color ControlBackColor
+        {
+            get
+            {
+                return (Color)Properties.Settings.Default["BackgroundColor"];
+            }
+            set
+            {
+                if ((Color)Properties.Settings.Default["BackgroundColor"] != value)
+                {
+                    Properties.Settings.Default["BackgroundColor"] = value;
+                    Properties.Settings.Default.Save();
+                    BackColor = value;
+                }
+            }
+        }
         #endregion
 
         public ImageCheckDialog()
@@ -115,10 +135,14 @@ namespace ImageCheck
         #region Form Events
         private void ImageCheckDialog_Load(object sender, EventArgs e)
         {
+            isSelecting = false;
+
             pbDeleteMark.Image = ImageCheck.Properties.Resources.deleted;
             pbDeleteMark.BackColor = Color.Transparent;
             pbDeleteMark.Parent = pictureBox1;
             pbDeleteMark.Visible = false;
+
+            BackColor = ControlBackColor;
 
             if (DoQuickResume)
             {
@@ -151,17 +175,21 @@ namespace ImageCheck
 
         private bool CheckSaveAndContiune()
         {
+            System.Windows.Forms.DialogResult res = System.Windows.Forms.DialogResult.Yes;
+
             if (!SupressSaveQuestion && Changed)
             {
-                System.Windows.Forms.DialogResult res = MessageBox.Show("Current directory state has changed.\nSave changes?", "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
-                if (res == System.Windows.Forms.DialogResult.Cancel)
-                {
-                    return false;
-                }
-                if (res == System.Windows.Forms.DialogResult.Yes)
-                {
-                    SaveData();
-                }
+                res = MessageBox.Show("Current directory state has changed.\nSave changes?", "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+            }
+
+            if (res == System.Windows.Forms.DialogResult.Cancel)
+            {
+                return false;
+            }
+            
+            if (res == System.Windows.Forms.DialogResult.Yes)
+            {
+                SaveData();
             }
             return true;
         }
@@ -445,5 +473,47 @@ namespace ImageCheck
             bnResume.Enabled = false;
         }
 
+        private void pbColorSelection_MouseDown(object sender, MouseEventArgs e)
+        {
+            isSelecting = true;
+            oldColor = pictureBox1.BackColor;
+        }
+
+        private void pbColorSelection_MouseUp(object sender, MouseEventArgs e)
+        {
+            isSelecting = false;
+        }
+
+        private void pbColorSelection_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isSelecting == true)
+            {
+                Bitmap bmpImage = (Bitmap)pbColorSelection.Image;
+                Color clr = oldColor;
+
+                if ((0 < e.X && e.X < bmpImage.Width)
+                    && (0 < e.Y && e.Y < bmpImage.Height))
+                {
+                    clr = bmpImage.GetPixel(e.X, e.Y);
+                }
+
+                ControlBackColor = clr;
+            }
+        }
+
+        private void bnColorWhite_Click(object sender, EventArgs e)
+        {
+            ControlBackColor = System.Drawing.Color.White;
+        }
+
+        private void bnColorBlack_Click(object sender, EventArgs e)
+        {
+            ControlBackColor = System.Drawing.Color.Black;
+        }
+
+        private void bnColorControl_Click(object sender, EventArgs e)
+        {
+            ControlBackColor = SystemColors.Control;
+        }
     }
 }
