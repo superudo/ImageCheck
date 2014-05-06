@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.VisualBasic.FileIO;
@@ -206,6 +207,7 @@ namespace ImageCheck
                         imgFile.Deleted = !imgFile.Deleted;
                         pbDeleteMark.Visible = imgFile.Deleted;
                         Changed = true;
+                        UpdateMarkedCountLabel();
                         if (ProceedOnDelete && imgFile.Deleted)
                         {
                             ProceedToNextPicture();
@@ -355,9 +357,23 @@ namespace ImageCheck
                 }
                 ++idx;
             }
+
+            lblFiles.Text = String.Format("{0} Files", lbImages.Items.Count);
+            UpdateMarkedCountLabel();
+
             Cursor.Current = Cursors.Default;
 
             lbImages.SelectedIndex = foundAt;
+        }
+
+        private void UpdateMarkedCountLabel()
+        {
+            var cnt = (from ImageFile img in lbImages.Items
+                       where img.Deleted
+                       select img).Count();
+
+            lblMarked.Text = String.Format("{0} Marked", cnt);
+
         }
 
         private void LoadImage(ImageFile f)
@@ -451,7 +467,15 @@ namespace ImageCheck
 
         private void EraseFiles()
         {
+            string selectedImageName = null;
+            ImageFile selectedImage = lbImages.SelectedItem as ImageFile;
+            if ((selectedImage != null) && (!selectedImage.Deleted))
+            {
+                selectedImageName = selectedImage.FileName;
+            }
             lbImages.SelectedIndex = -1;
+
+            Cursor.Current = Cursors.WaitCursor;
 
             foreach (ImageFile img in lbImages.Items) {
                 if (img.Deleted)
@@ -464,12 +488,26 @@ namespace ImageCheck
 
             LastFile = "";
 
+            Cursor.Current = Cursors.Default;
+
             SetNewDirectory(CurrentDirectory);
+
+            if (!String.IsNullOrEmpty(selectedImageName))
+            {
+                lbImages.SelectedIndex = lbImages.FindString(selectedImageName);
+            }
         }
 
         private void ResumeLastPosition()
         {
-            SetNewDirectory(LastDirectory);
+            if (Directory.Exists(LastDirectory))
+            {
+                SetNewDirectory(LastDirectory);
+            }
+            else
+            {
+                MessageBox.Show("Directory to resume doesn't exist.");
+            }
             bnResume.Enabled = false;
         }
 
